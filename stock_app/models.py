@@ -11,3 +11,11 @@ class StockData(models.Model):
 
     def __str__(self):
         return f"{self.ticker} - {self.date}"
+
+class NewsSource(models.Model):
+    ticker = models.CharField(max_length=10)
+    link = models.URLField()
+    fetched_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"News for {self.ticker} - {self.link}"
