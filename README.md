@@ -92,14 +92,16 @@ Example: /api/news/MSFT/
 
 Input a stock ticker (e.g., MSFT, AAPL) into the Gradio UI to retrieve:
 
-	•	Stock prices (JSON format).
-	•	Related news articles (title + link).
+- Stock prices (JSON format).
+- Related news articles (title + link).
 
 
 💡 Why This App?
-	•	🎯 Simple to Use: Easy querying with a clean interface.
-	•	⚡ Fast & Reliable: Integrated with Yahoo Finance API for real-time data.
-	•	🛡️ Modern Tech: Built with Django, PostgreSQL, MongoDB, and Gradio for full-stack efficiency.
+
+
+- 🎯 Simple to Use: Easy querying with a clean interface.
+- ⚡ Fast & Reliable: Integrated with Yahoo Finance API for real-time data.
+- 🛡️ Modern Tech: Built with Django, PostgreSQL, MongoDB, and Gradio for full-stack efficiency.
 
 
 🤝 Contributing
