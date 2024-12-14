@@ -44,8 +44,8 @@ pip install django djangorestframework psycopg2 pymongo yfinance pandas matplotl
 
 ### 3. **Set Up Databases**
 ```
-	•	PostgreSQL: Create a database named finance_db and configure credentials in settings.py.
-	•	MongoDB: Ensure MongoDB is running on localhost:27017.
+- PostgreSQL: Create a database named finance_db and configure credentials in settings.py.
+- MongoDB: Ensure MongoDB is running on localhost:27017.
 ```
 ### 4. **Run Migrations**
 ```
