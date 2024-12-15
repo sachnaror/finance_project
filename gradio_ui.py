@@ -1,122 +1,71 @@
 import gradio as gr
+import requests
 import matplotlib.pyplot as plt
-from pymongo import MongoClient
-from langchain.llms import OpenAI
-from langchain.prompts import PromptTemplate
 import pandas as pd
-import json
 
-# MongoDB Configuration
-client = MongoClient("mongodb://localhost:27017/")
-db = client["finance_data"]
-news_collection = db["news_articles"]
-stock_collection = db["stock_data"]
+BASE_URL = "http://127.0.0.1:8000/api"
 
-# LangChain Configuration (replace with your OpenAI key)
-import os
-os.environ["OPENAI_API_KEY"] = "your_openai_api_key"
-llm = OpenAI(temperature=0.5)
+def fetch_data(ticker):
+    ticker = ticker.upper()
 
-# Function to fetch and summarize stock data
-def fetch_stock_data(ticker):
-    # Retrieve stock data from MongoDB
-    stock_data = list(stock_collection.find({"ticker": ticker.upper()}))
+    # Fetch stock data
+    try:
+        stock_response = requests.get(f"{BASE_URL}/stock/{ticker}/")
+        stock_data = stock_response.json().get("data", [])
+    except:
+        return "Error fetching stock data.", None, None, "Error fetching news."
 
     if not stock_data:
-        return "No stock data found for this ticker.", "", None
+        return f"No stock data available for {ticker}.", None, None, "No news articles."
 
-    # Convert to DataFrame
-    df = pd.DataFrame(stock_data)
+    # Fetch news data
+    try:
+        news_response = requests.get(f"{BASE_URL}/news/{ticker}/")
+        news_data = news_response.json().get("news", [])
+    except:
+        news_data = []
 
     # Generate Chart
+    df = pd.DataFrame(stock_data)
     plt.figure(figsize=(10, 5))
-    plt.plot(df["date"], df["close"], label="Close Price", marker="o")
-    plt.title(f"Stock Data for {ticker.upper()}")
+    plt.plot(df["date"], df["close"], marker="o", label="Close Price")
+    plt.title(f"Stock Chart for {ticker}")
     plt.xlabel("Date")
     plt.ylabel("Close Price")
     plt.legend()
     plt.grid()
     plt.tight_layout()
-    plt.savefig("stock_chart.png")
+    chart_path = "stock_chart.png"
+    plt.savefig(chart_path)
     plt.close()
 
-    # Generate Summary using LangChain
-    stock_json = json.dumps(stock_data, default=str)
-    prompt = PromptTemplate(
-        input_variables=["stock_data"],
-        template="Summarize the following stock data in 2-4 lines:\n{stock_data}"
-    )
-    summary = llm(prompt.format(stock_data=stock_json))
-
-    return f"Summary for {ticker.upper()}:\n{summary}", "stock_chart.png", df
-
-# LangChain-powered chat for user questions
-def chat_with_data(ticker, question):
-    # Retrieve stock and news data from MongoDB
-    stock_data = list(stock_collection.find({"ticker": ticker.upper()}))
-    news_data = list(news_collection.find({"ticker": ticker.upper()}))
-
-    if not stock_data and not news_data:
-        return "No data found for this ticker."
-
-    # Combine data into a JSON string
-    combined_data = {
-        "stock_data": stock_data,
-        "news_data": news_data
-    }
-    data_json = json.dumps(combined_data, default=str)
-
-    # LangChain prompt
-    prompt = PromptTemplate(
-        input_variables=["question", "data"],
-        template="Answer the following question based on the provided data:\nQuestion: {question}\nData: {data}"
-    )
-    response = llm(prompt.format(question=question, data=data_json))
-
-    return response
-
-# Gradio UI
-def gradio_interface(ticker):
-    summary, chart, df = fetch_stock_data(ticker)
-    if not df:
-        return summary, None, None
-
-    # Format stock data table
+    # Stock Table
     stock_table = "\n".join([
-        f"Date: {row['date']}, Open: {row['open']}, High: {row['high']}, Low: {row['low']}, "
-        f"Close: {row['close']}, Volume: {row['volume']}"
-        for _, row in df.iterrows()
+        f"Date: {row['date']}, Open: {row['open']}, High: {row['high']}, Low: {row['low']}, Close: {row['close']}, Volume: {row['volume']}"
+        for row in stock_data
     ])
 
-    return summary, chart, stock_table
+    # News Display
+    news_display = "\n".join([
+        f"Title: {news['title']}\nLink: {news['link']}\nDate: {news['date']}"
+        for news in news_data
+    ]) if news_data else "No news articles found."
 
-# Gradio Chat Interface
-def gradio_chatbox(ticker, question):
-    return chat_with_data(ticker, question)
+    return f"Stock data for {ticker} retrieved successfully.", chart_path, stock_table, news_display
 
-# Gradio Layout
+# Gradio UI
 with gr.Blocks() as app:
-    gr.Markdown("## Stock Data and News Interaction")
+    gr.Markdown("## Stock and News Viewer")
 
     with gr.Row():
-        with gr.Column():
-            ticker_input = gr.Textbox(label="Enter Stock Ticker (e.g., TSLA, AAPL)")
-            submit_btn = gr.Button("Submit")
-            clear_btn = gr.Button("Clear")
+        ticker_input = gr.Textbox(label="Enter Stock Ticker")
+        fetch_btn = gr.Button("Fetch Data")
 
-            # Chatbox for user queries
-            gr.Markdown("### Ask a Question about the Stock Data")
-            question_input = gr.Textbox(label="Enter your question")
-            chat_btn = gr.Button("Ask")
-            chat_output = gr.Textbox(label="Chat Response")
+    summary_output = gr.Textbox(label="Stock Summary")
+    chart_output = gr.Image(label="Stock Chart")
+    table_output = gr.Textbox(label="Stock Table")
+    news_output = gr.Textbox(label="Top 5 News Headlines")
 
-        with gr.Column():
-            summary_output = gr.Textbox(label="Stock Summary")
-            chart_output = gr.Image(label="Stock Chart")
-            table_output = gr.Textbox(label="Stock Data Table")
-
-    submit_btn.click(gradio_interface, inputs=ticker_input, outputs=[summary_output, chart_output, table_output])
-    chat_btn.click(gradio_chatbox, inputs=[ticker_input, question_input], outputs=chat_output)
-    clear_btn.click(lambda: ("", None, ""), outputs=[summary_output, chart_output, table_output])
+    fetch_btn.click(fetch_data, inputs=ticker_input, outputs=[summary_output, chart_output, table_output, news_output])
 
 app.launch()
