@@ -1,18 +1,17 @@
 from django.db import models
 
-# PostgreSQL Model for Stock Data
 class StockData(models.Model):
     ticker = models.CharField(max_length=10)
     date = models.DateField()
-    open_price = models.FloatField()
-    high_price = models.FloatField()
-    low_price = models.FloatField()
-    close_price = models.FloatField()
+    open = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+    close = models.FloatField()
     volume = models.BigIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True)  # Set once on creation
-    updated_at = models.DateTimeField(auto_now=True)      # Updated every time the row is saved
+    class Meta:
+        unique_together = ('ticker', 'date')
 
     def __str__(self):
         return f"{self.ticker} - {self.date}"
