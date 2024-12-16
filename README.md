@@ -129,7 +129,7 @@ The application combines modern web technologies, APIs, and databases to deliver
 
 ## 🚀 How to Run the App
 
-### 1.  **Clone the github repo (because, ofcourse :~) **
+### 1.  **Clone the github repo, because, why not** :~)
 
 ```bash
  git clone https://github.com/sachnaror/finance_project.git
