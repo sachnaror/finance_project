@@ -22,9 +22,12 @@ The **Stock & News Insights App** serves three key purposes:
    - Users can ask questions like, *"What is the best day to invest?"* or *"Summarize the stock trends for the past week."* and get intelligent answers.
 
 ---
+
 ## 📹 Watch the Video Walkthrough Here:
 
-[![Watch the Video Walkthrough Here]](https://youtu.be/ePyz2ZlIK0M)
+<a href="https://youtu.be/ePyz2ZlIK0M" target="_blank">
+    <img src="https://img.youtube.com/vi/ePyz2ZlIK0M/0.jpg" alt="Watch the Video Walkthrough Here" width="600" height="500">
+</a>
 
 ## 🛠 Tech Stack
 
