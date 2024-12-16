@@ -190,6 +190,6 @@ Stay informed. Stay ahead. 🚀
 
 ---
 
-## 🎨 Fun and Professional Image
+## 🎨 Preview Image
 
-<img src="https://your-image-url-here" alt="Fun and Professional Image" width="600" height="500">
+<img src="resources/image.png" alt="Preview Image" width="600" height="500">
