@@ -26,7 +26,7 @@ The **Stock & News Insights App** serves three key purposes:
 ## 📹 Watch the Video Walkthrough Here:
 
 <a href="https://youtu.be/ePyz2ZlIK0M" target="_blank">
-    <img src="" alt="Watch the Video Walkthrough Here" width="600" height="400">
+    <img src="https://img.youtube.com/vi/ePyz2ZlIK0M/0.jpg" alt="Watch the Video Walkthrough Here" width="600" height="400">
 </a>
 
 ## 🛠 Tech Stack
