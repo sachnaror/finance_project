@@ -129,19 +129,19 @@ The application combines modern web technologies, APIs, and databases to deliver
 
 ## 🚀 How to Run the App
 
- Clone the github repo (because, ofcourse :~)
+### 1.  **Clone the github repo (because, ofcourse :~) **
 
 ```bash
  git clone https://github.com/sachnaror/finance_project.git
 ```
 
-### 1. **Install Dependencies**
+### 2. **Install Dependencies**
 Ensure all dependencies are installed:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. **Set Up Environment Variables**
+### 3. **Set Up Environment Variables**
 Create a `.env` file with:
 ```env
 OPENAI_API_KEY=YOUR_OPENAI_KEY
@@ -150,13 +150,13 @@ PROXY_URL=http://user:pass@proxy.packetstream.io:31112
 CHROME_DRIVER_PATH=/usr/local/bin/chromedriver
 ```
 
-### 3. **Run the Backend Server**
+### 4. **Run the Backend Server**
 Start the Django development server:
 ```bash
 python manage.py runserver
 ```
 
-### 4. **Launch the Gradio App**
+### 5. **Launch the Gradio App**
 Run the Gradio UI:
 ```bash
 python gradio_ui.py
