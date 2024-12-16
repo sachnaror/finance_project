@@ -379,3 +379,175 @@ curl http://127.0.0.1:8000/api/news/GOOGL/
 ---
 
 By integrating these endpoints into the **Gradio-based dashboard**, users can interactively analyze stock data, review news, and get AI-powered insights seamlessly. 🚀
+
+
+
+
+
+# System Design Document
+
+## Project Overview
+This document provides the system design for a Stock Market Dashboard that fetches stock data and news articles for given ticker symbols. The system consists of backend APIs built using Django, a MongoDB database for news storage, PostgreSQL for stock data, Selenium for web scraping, and a Gradio frontend for user interaction.
+
+---
+
+## Architecture Overview
+
+The system follows a **Client-Server Architecture**:
+
+1. **Frontend**: Gradio UI for displaying stock data, news, charts, and answering user queries.
+2. **Backend**: Django REST Framework-based APIs that fetch and serve stock data and news articles.
+3. **Databases**:
+   - **PostgreSQL** for stock market data storage.
+   - **MongoDB** for storing fetched news articles.
+4. **Third-Party Libraries and Tools**:
+   - **Selenium**: For web scraping dynamic Yahoo Finance news pages.
+   - **yFinance**: For fetching stock data via Yahoo Finance API.
+   - **Langchain/OpenAI**: For summarizing and answering questions about the stock data.
+5. **Proxy Integration**: Proxy for web scraping to avoid rate-limiting.
+
+---
+
+## High-Level System Flow
+
+1. **User Input**: The user enters a ticker symbol in the Gradio UI.
+2. **Stock Data Retrieval**:
+   - Request sent to the `/api/stock/<ticker>/` endpoint.
+   - Fetch stock data via **yFinance** API.
+   - Save data to **PostgreSQL**.
+3. **News Data Retrieval**:
+   - Request sent to the `/api/news/<ticker>/` endpoint.
+   - Selenium scrapes Yahoo Finance for news articles using a proxy and saves to **MongoDB**.
+4. **Data Presentation**:
+   - Stock data is displayed as a chart and a table.
+   - News articles are displayed with headlines and links.
+5. **Chat Interaction**:
+   - User submits a question about the stock.
+   - Langchain/OpenAI analyzes stock and news data and generates an insightful response.
+
+---
+
+## Components
+
+### 1. Backend: Django REST APIs
+
+#### Endpoints
+
+- **Fetch Stock Data**:
+  - **Endpoint**: `/api/stock/<ticker>/`
+  - **Description**: Fetches the last 5 days of stock data using yFinance.
+  - **Database**: Saves data into PostgreSQL.
+- **Fetch News Articles**:
+  - **Endpoint**: `/api/news/<ticker>/`
+  - **Description**: Uses Selenium to scrape Yahoo Finance for the latest news.
+  - **Database**: Saves data into MongoDB.
+
+#### Technology Stack
+
+- **Framework**: Django + Django REST Framework (DRF)
+- **Libraries**:
+  - `yfinance`: Fetch stock data
+  - `Selenium`: Dynamic web scraping
+  - `pymongo`: MongoDB client
+  - `psycopg2`: PostgreSQL driver
+
+---
+
+### 2. Databases
+
+#### PostgreSQL (Stock Data)
+
+| Column       | Type           | Description                |
+|--------------|----------------|----------------------------|
+| ticker       | VARCHAR(10)    | Stock ticker symbol        |
+| date         | DATE           | Date of stock data         |
+| open         | FLOAT          | Opening price              |
+| high         | FLOAT          | Highest price              |
+| low          | FLOAT          | Lowest price               |
+| close        | FLOAT          | Closing price              |
+| volume       | BIGINT         | Volume of stocks traded    |
+| created_at   | TIMESTAMP      | Time of record creation    |
+
+#### MongoDB (News Data)
+
+- **Database**: `finance_data`
+- **Collection**: `news_articles`
+- **Fields**:
+  - `ticker`: Stock ticker symbol
+  - `title`: News headline
+  - `link`: URL to the full article
+  - `date`: Published date
+
+---
+
+### 3. Frontend: Gradio UI
+
+#### Features
+
+1. **Fetch Stock Data**:
+   - Displays a stock chart for the last 5 days.
+   - Shows stock data in a readable table.
+
+2. **Fetch News Articles**:
+   - Displays the top 5 news headlines with clickable links.
+
+3. **Chat Interface**:
+   - Allows users to ask questions related to stock and news data.
+   - Generates answers using Langchain and OpenAI.
+
+#### Gradio Components
+
+- **Text Input**: For ticker symbol and chat questions.
+- **Button**: For triggering stock/news fetch and question-answering.
+- **Textbox**: For displaying summaries and responses.
+- **Image**: For displaying the stock chart.
+
+---
+
+## Third-Party Tools
+
+1. **Selenium**:
+   - Used to scrape Yahoo Finance news dynamically with a rotating proxy.
+   - Handles page rendering with headless Chrome.
+2. **Proxy**:
+   - Provider: `packetstream.io`
+   - Configured in Selenium via `--proxy-server` argument.
+3. **yFinance**:
+   - Fetches historical stock data.
+
+4. **Langchain & OpenAI**:
+   - Provides intelligent summaries and answers.
+
+---
+
+## Deployment
+
+1. **Backend**: Deploy Django APIs using Gunicorn and Nginx.
+2. **Frontend**: Run Gradio as a service or containerized via Docker.
+3. **Databases**:
+   - PostgreSQL hosted locally or on AWS RDS.
+   - MongoDB hosted locally or using MongoDB Atlas.
+4. **Selenium Setup**:
+   - Ensure `chromedriver` and Chrome browser versions are compatible.
+   - Run Selenium in headless mode.
+
+---
+
+## Future Improvements
+
+1. **Scalability**:
+   - Deploy APIs with Kubernetes for better load balancing.
+   - Use Redis for caching frequently fetched stock data.
+2. **Enhanced News Scraping**:
+   - Integrate multiple news sources like Bloomberg or Reuters.
+3. **Security**:
+   - Add rate-limiting to APIs.
+   - Implement authentication and authorization.
+4. **UI Enhancement**:
+   - Add interactive charts using Plotly.
+
+---
+
+## Conclusion
+
+This system enables fetching stock and news data efficiently while providing a user-friendly interface for insights and analysis. It integrates cutting-edge tools such as Selenium, yFinance, MongoDB, and OpenAI to deliver a robust solution.
