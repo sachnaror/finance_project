@@ -22,6 +22,9 @@ The **Stock & News Insights App** serves three key purposes:
    - Users can ask questions like, *"What is the best day to invest?"* or *"Summarize the stock trends for the past week."* and get intelligent answers.
 
 ---
+## 📹 Watch the Video Walkthrough Here:
+
+[![Watch the Video Walkthrough Here](https://img.youtube.com/vi/ePyz2ZlIK0M/0.jpg)](https://youtu.be/ePyz2ZlIK0M)
 
 ## 🛠 Tech Stack
 
@@ -123,6 +126,12 @@ The application combines modern web technologies, APIs, and databases to deliver
 
 ## 🚀 How to Run the App
 
+ Clone the github repo (because, ofcourse :~)
+
+```bash
+ git clone https://github.com/sachnaror/finance_project.git
+```
+
 ### 1. **Install Dependencies**
 Ensure all dependencies are installed:
 ```bash
@@ -176,3 +185,6 @@ Stay informed. Stay ahead. 🚀
 - Enabling **real-time alerts** for stock price changes.
 - Expanding AI features for **detailed financial analysis**.
 
+---
+
+![Fun and Professional Image](path-to-your-image.png)
