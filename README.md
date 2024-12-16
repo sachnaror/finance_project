@@ -175,7 +175,7 @@ Access the app at: [http://127.0.0.1:7860/](http://127.0.0.1:7860/)
 
 ---
 
-## 🏆 Conclusion
+## 🏆 Why this app ?
 
 The **Stock & News Insights App** is a one-stop solution for anyone needing **real-time market insights**, whether for personal analysis or financial decision-making. By seamlessly combining **live stock data**, **news scraping**, and **AI-powered insights**, the app provides actionable information in a user-friendly interface.
 
@@ -189,12 +189,6 @@ Stay informed. Stay ahead. 🚀
 - Expanding AI features for **detailed financial analysis**.
 
 ---
-
-## 🎨 Preview Image
-
-<img src="resources/image.png" alt="Preview Image" width="600" height="500">
-
-
 
 
 # API Endpoints Documentation
@@ -551,3 +545,11 @@ The system follows a **Client-Server Architecture**:
 ## Conclusion
 
 This system enables fetching stock and news data efficiently while providing a user-friendly interface for insights and analysis. It integrates cutting-edge tools such as Selenium, yFinance, MongoDB, and OpenAI to deliver a robust solution.
+
+
+
+## 🎨 Preview Image
+
+<img src="resources/image.png" alt="Preview Image" width="600" height="500">
+
+
