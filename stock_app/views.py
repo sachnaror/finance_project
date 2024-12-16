@@ -23,7 +23,7 @@ mongo_client = MongoClient("mongodb://localhost:27017/")
 news_collection = mongo_client["finance_data"]["news_articles"]
 
 # Proxy Configuration
-PROXY_URL = "http://marknavs:jsCAEkDleRw3zjOC@proxy.packetstream.io:31112"
+PROXY_URL = "http://mark:jsCADlew3zjOC@proxy.monalisa.io:31112" #This proxy had limited credits and seems to havhe been consumed while testing this.
 CHROME_DRIVER_PATH = "/usr/local/bin/chromedriver"
 
 # User Agents

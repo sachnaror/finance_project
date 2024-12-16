@@ -7,8 +7,9 @@ import os
 from langchain.prompts import PromptTemplate
 
 # Configuration
+# Please use your own key below
 BASE_URL = "http://127.0.0.1:8000/api"
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "sk-proj-Za4KwfA6br8bRV1wSvmDo1yQOQKHeYT-iXWURw2DWUCnfc1ofwVS80FEvE7bYWVrXwnoK_OOnET3BlbkFJk13t4QLYLlcMvFNTf4JSSB-3tns4VrIYQtHkX65EUg5dz6bAbx0cCT_XGoqm3rWRMb-R6hgA"
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.5)
 
 
