@@ -146,7 +146,7 @@ Create a `.env` file with:
 ```env
 OPENAI_API_KEY=YOUR_OPENAI_KEY
 MONGO_URI=mongodb://localhost:27017/
-PROXY_URL=http://user:pass@proxy.packetstream.io:31112
+PROXY_URL=http://user:pass@proxy.mora.io:87
 CHROME_DRIVER_PATH=/usr/local/bin/chromedriver
 ```
 
@@ -504,7 +504,7 @@ The system follows a **Client-Server Architecture**:
    - Used to scrape Yahoo Finance news dynamically with a rotating proxy.
    - Handles page rendering with headless Chrome.
 2. **Proxy**:
-   - Provider: `packetstream.io`
+   - Provider: `proxy.io`
    - Configured in Selenium via `--proxy-server` argument.
 3. **yFinance**:
    - Fetches historical stock data.
